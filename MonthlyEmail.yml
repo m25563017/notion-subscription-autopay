@@ -1,0 +1,23 @@
+name: 訂閱狀況月報 Email
+
+on:
+    schedule:
+        - cron: "0 1 10 * *" # UTC 01:00 = 台北 09:00，每月 10 號跑一次
+    workflow_dispatch: {}
+
+jobs:
+    send-email:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+            - run: npm install
+            - run: npm run monthly-email
+              env:
+                  NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+                  NOTION_SUBS_DB_ID: ${{ secrets.NOTION_SUBS_DB_ID }}
+                  GMAIL_USER: ${{ secrets.GMAIL_USER }}
+                  GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+                  MAIL_TO: ${{ secrets.MAIL_TO }}
