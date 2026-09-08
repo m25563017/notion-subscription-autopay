@@ -1,15 +1,15 @@
 {
-    "name": "notion-subscription-bot",
-    "version": "1.0.0",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "catchup": "node src/catchup.js",
-        "monthly-email": "node src/monthly-email.js"
-    },
-    "dependencies": {
-        "@notionhq/client": "^2.2.15",
-        "dotenv": "^16.4.5",
-        "nodemailer": "^6.9.13"
-    }
+  "name": "notion-subscription-bot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "catchup": "node src/catchup.js",
+    "monthly-email": "node src/monthly-email.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "dotenv": "^16.4.5",
+    "resend": "^4.0.0"
+  }
 }

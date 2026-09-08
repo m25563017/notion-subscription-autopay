@@ -1,5 +1,5 @@
 import "dotenv/config";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { queryAllSubscriptions, taipeiDateOnly } from "./notion.js";
 
 function monthlyCost(sub) {
@@ -60,22 +60,25 @@ async function main() {
     const subs = await queryAllSubscriptions();
     const html = buildHtml(subs, today);
 
-    const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-            user: process.env.GMAIL_USER,
-            pass: process.env.GMAIL_APP_PASSWORD,
-        },
-    });
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-    await transporter.sendMail({
-        from: process.env.GMAIL_USER,
+    // MAIL_FROM 沒設定的話，先用 Resend 提供的測試寄件地址。
+    // 測試地址只能寄給你自己註冊 Resend 的那個信箱；要寄給任何信箱，
+    // 之後去 Resend 驗證自己的網域，再把 MAIL_FROM 換成該網域下的信箱。
+    const from = process.env.MAIL_FROM || "onboarding@resend.dev";
+
+    const { data, error } = await resend.emails.send({
+        from,
         to: process.env.MAIL_TO,
         subject: `訂閱狀況月報 ${today}`,
         html,
     });
 
-    console.log("月報已寄出");
+    if (error) {
+        throw new Error(`Resend 寄信失敗: ${JSON.stringify(error)}`);
+    }
+
+    console.log("月報已寄出", data?.id);
 }
 
 main().catch((err) => {

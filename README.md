@@ -1,7 +1,6 @@
 # Notion 訂閱自動補帳 + 月報 Email
 
 兩個排程：
-
 - **每天**：檢查「訂閱產品」，把到期未記的「繳費紀錄」補上（照你跟 Notion AI 討論出的追平邏輯）
 - **每月 10 號**：寄一封 email，列出「準備取消」但還沒去平台取消的訂閱、暫停中的訂閱、以及目前每月總花費
 
@@ -15,11 +14,9 @@
 ## 2. 取得 Database ID
 
 打開資料庫的「完整頁面」，網址長這樣：
-
 ```
 https://www.notion.so/xxxxx/1a2b3c4d5e6f...?v=...
 ```
-
 `1a2b3c4d5e6f...` 那段 32 碼英數字就是 database ID，「訂閱產品」「繳費紀錄」各取一個。
 
 ## 3. 放上 GitHub
@@ -30,16 +27,14 @@ https://www.notion.so/xxxxx/1a2b3c4d5e6f...?v=...
 
 Repo → `Settings` → `Secrets and variables` → `Actions` → `New repository secret`，新增：
 
-| Secret                  | 說明                                       |
-| ----------------------- | ------------------------------------------ |
-| `NOTION_TOKEN`          | 步驟 1 拿到的 integration token            |
-| `NOTION_SUBS_DB_ID`     | 「訂閱產品」database ID                    |
-| `NOTION_PAYMENTS_DB_ID` | 「繳費紀錄」database ID                    |
-| `GMAIL_USER`            | 用來寄信的 Gmail 帳號                      |
-| `GMAIL_APP_PASSWORD`    | Gmail 應用程式密碼（不是登入密碼，見下方） |
-| `MAIL_TO`               | 收月報的信箱（可以跟 `GMAIL_USER` 相同）   |
-
-**Gmail 應用程式密碼**：Google 帳戶 → 安全性 → 先開啟兩步驟驗證 → 「應用程式密碼」→ 產生一組給這個腳本用。
+| Secret | 說明 |
+|---|---|
+| `NOTION_TOKEN` | 步驟 1 拿到的 integration token |
+| `NOTION_SUBS_DB_ID` | 「訂閱產品」database ID |
+| `NOTION_PAYMENTS_DB_ID` | 「繳費紀錄」database ID |
+| `RESEND_API_KEY` | Resend 的 API Key（[resend.com](https://resend.com) → Dashboard → API Keys） |
+| `MAIL_TO` | 收月報的信箱 |
+| `MAIL_FROM` | 選填。沒驗證網域前留空，會自動用 Resend 的 `onboarding@resend.dev`（只能寄給你註冊 Resend 那個信箱）；驗證完自己的網域後可填該網域下的地址，例如 `notify@yourdomain.com` |
 
 ## 5. 本地測試（建議先做這步再等排程）
 
