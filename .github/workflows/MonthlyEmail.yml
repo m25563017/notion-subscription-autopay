@@ -2,7 +2,7 @@ name: 訂閱狀況月報 Email
 
 on:
     schedule:
-        - cron: "0 1 10 * *" # UTC 01:00 = 台北 09:00，每月 10 號跑一次
+        - cron: "12 22 10 * *" # UTC 每月 10 號 22:12 = 台北 每月 11 號 06:12
     workflow_dispatch: {}
 
 jobs:

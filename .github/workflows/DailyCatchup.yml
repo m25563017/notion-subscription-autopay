@@ -2,7 +2,7 @@ name: Notion 訂閱自動補帳
 
 on:
   schedule:
-    - cron: "0 1 * * *" # UTC 01:00 = 台北 09:00，每天跑一次
+    - cron: "17 1 * * *" # UTC 01:17 = 台北 09:17，每天跑一次（避開整點壅塞）
   workflow_dispatch: {}
 
 jobs:
